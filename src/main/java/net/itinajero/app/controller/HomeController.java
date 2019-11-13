@@ -1,35 +1,65 @@
 package net.itinajero.app.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import net.itinajero.app.model.Movie;
+import net.itinajero.app.util.Utilitis;
 
 @Controller
 public class HomeController {
+	
+	private SimpleDateFormat dateFmt = new SimpleDateFormat("yyyy-MM-dd"	);
 
 	@RequestMapping(value="/home", method=RequestMethod.GET)
 	public String goHome(){
 		return "home";
 	}
 	
-	@RequestMapping(value="/", method=RequestMethod.GET)
-	public String showMovie(Model model) {
+	@RequestMapping(value="/search", method = RequestMethod.POST)
+	public String search(@RequestParam("date") String date, Model model) {
 		
+		System.out.println(date);
+		
+		List<String> nextDays = Utilitis.getNexDays(4);
 		List<Movie> movies = getList();
+		System.out.println(nextDays);
 
+		model.addAttribute("searchDate", date);
 		model.addAttribute("movies", movies);
+		model.addAttribute("nextDays", nextDays);
 		return "home";
 	}
 	
-	@RequestMapping(value="/detail")
-	public String showDetail(Model model) {
+	
+	@RequestMapping(value="/", method=RequestMethod.GET)
+	public String showMovies(Model model) {
+		
+		List<String> nextDays = Utilitis.getNexDays(4);
+		List<Movie> movies = getList();
+		System.out.println(nextDays);
+
+		model.addAttribute("searchDate", dateFmt.format(new Date()));
+		model.addAttribute("movies", movies);
+		model.addAttribute("nextDays", nextDays);
+		return "home";
+	}
+	
+	@RequestMapping(value="/detail/{id}/{date}", method=RequestMethod.GET)
+	public String showDetail(Model model, @PathVariable("id") Integer movieId, @PathVariable("date") String date) {
+		
+		System.out.println(movieId);
+		System.out.println(date);
+
 		String tituloPelicula = "Rapidos y furiosos";
 		int duracion = 196;
 		double precioEntrada = 50;
@@ -87,7 +117,18 @@ public class HomeController {
 			movie.setPremiereDate(fmtDate.parse("2017-08-23"));
 			movie.setImage("kong.png");
 			movie.setStatus("Inactive");
-			list.add(movie);				
+			list.add(movie);	
+			
+			movie = new Movie();
+			movie.setId(5);
+			movie.setTitle("Life");
+			movie.setDuration(142);
+			movie.setClassification("G");
+			movie.setGenre("Adventure, Epic fantasy");
+			movie.setPremiereDate(fmtDate.parse("2017-08-23"));
+			movie.setImage("estreno5.png");
+			movie.setStatus("Inactive");
+			list.add(movie);			
 			
 		}catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
