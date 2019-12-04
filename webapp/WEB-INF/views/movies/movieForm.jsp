@@ -45,7 +45,7 @@
 	
 		</spring:hasBindErrors>		
 
-		<form action="${formUrl}" method="post">
+		<form action="${formUrl}" method="post" enctype="multipart/form-data" >
 			<div class="row">
 				<div class="col-sm-3">
 					<div class="form-group">
@@ -110,8 +110,8 @@
 
 				<div class="col-sm-3">
 					<div class="form-group">
-						<label for="image">Image</label> <input type="file" id="image"
-							name="image" />
+						<label for="imageFile">Image</label> <input type="file" id="imageFile"
+							name="imageFile" />
 						<p class="help-block">Movie image</p>
 					</div>
 				</div>

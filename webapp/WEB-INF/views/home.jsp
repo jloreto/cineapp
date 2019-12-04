@@ -29,25 +29,43 @@
       <div id="myCarousel" class="carousel slide" data-ride="carousel">
         <!-- Indicators -->
         <ol class="carousel-indicators">
-          <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-          <li data-target="#myCarousel" data-slide-to="1"></li>
-          <li data-target="#myCarousel" data-slide-to="2"></li>         
-          <li data-target="#myCarousel" data-slide-to="3"></li>	
+        <c:forEach items="${banners }" var="banner" varStatus="loop">
+        
+       		<c:choose>
+       			<c:when test="${loop.index == 0 }">
+       				<li data-target="#myCarousel" data-slide-to="0" class="active"></li>	
+       			</c:when>
+       			<c:otherwise>
+       				<li data-target="#myCarousel" data-slide-to="${loop.index}"></li>
+       			</c:otherwise>
+       		
+       		</c:choose>
+        	
+        
+        </c:forEach>
         </ol>
         <!-- Image Size 1140 x 250 -->
         <div class="carousel-inner" role="listbox">
+        
+        <c:forEach items="${banners }" var="banner" varStatus="loop">
+        
+       		<c:choose>
+       			<c:when test="${loop.index == 0 }">
           <div class="item active">         
-            <img src="${publicUrl}/images/slide1.jpg" alt="Slide" title="Some text" >
-          </div>
+            <img src="${publicUrl}/images/banners/${banner.file}" alt="${banner.title}" title="${banner.title}" >
+          </div>	
+       			</c:when>
+       			<c:otherwise>
           <div class="item">         
-            <img src="${publicUrl}/images/slide2.jpg" alt="Slide" title="Some text" >
+            <img src="${publicUrl}/images/banners/${banner.file}" alt="${banner.title}" title="${banner.title}" >
           </div>
-          <div class="item">         
-            <img src="${publicUrl}/images/slide3.jpg" alt="Slide" title="Some text" >
-          </div>
-          <div class="item">         
-            <img src="${publicUrl}/images/slide4.jpg" alt="Slide" title="Some text" >
-          </div>
+       			</c:otherwise>
+       		
+       		</c:choose>
+        	
+        
+        </c:forEach>
+
         </div>
         <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
           <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
